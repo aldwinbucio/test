@@ -33,11 +33,13 @@ const reviewers = [
 
 const AssignReviewer = () => {
   const [assigned, setAssigned] = useState(reviewers.map(r => r.assigned));
+  const [status, setStatus] = useState(reviewers.map(r => r.status));
   const [showNotif, setShowNotif] = useState(false);
   const [notifAnim, setNotifAnim] = useState(false);
 
-  const handleAssign = (idx) => {
+  const handleAssign = (idx: number) => {
     setAssigned(prev => prev.map((a, i) => (i === idx ? true : a)));
+    setStatus(prev => prev.map((s, i) => (i === idx ? 'Not Available' : s)));
     setShowNotif(true);
     setTimeout(() => setNotifAnim(true), 10); // trigger animation
   };
@@ -68,11 +70,11 @@ const AssignReviewer = () => {
                 </td>
                 <td className="px-6 py-4">
                   <span className={
-                    rev.status === 'Available'
+                    status[idx] === 'Available'
                       ? 'text-blue-700 font-semibold'
                       : 'text-gray-500 font-semibold'
                   }>
-                    {rev.status}
+                    {status[idx]}
                   </span>
                 </td>
                 <td className="px-6 py-4">
