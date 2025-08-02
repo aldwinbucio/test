@@ -136,7 +136,7 @@ export const data: AppData = {
       isActive: true,
     },
     {
-      title: "Deviations",
+      title: "Deviation Management",
       url: "/sdevi",
       icon: PencilRuler,
       isActive: true,

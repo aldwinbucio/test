@@ -20,6 +20,7 @@ import { RadixSidebarDemo as AppSidebar } from './components/parts/neo-sidebar';
 import { RippleButton } from './components/animate-ui/buttons/ripple';
 import STrends from './pages/staff/Trends';
 import RDeviations from './pages/researcher/Deviations';
+import DeviationDetail from './pages/staff/DeviationDetail';
 
 
 function App() {
@@ -56,6 +57,7 @@ function App() {
             <Route path="/sassign-reviewer" element={<AssignReviewer />} />
             <Route path="/sreview-submission" element={<ReviewSubmission />} />
             <Route path="/sdevi" element={<SDeviations />} />
+            <Route path="/staff/deviations/:id" element={<DeviationDetail />} />
             <Route path="/rdevi" element={<RDeviations />} />
             <Route path="/ssubm" element={<SSubmissions />} />
             <Route path="/ssubm/sub1" element={<SSubmissions />} />

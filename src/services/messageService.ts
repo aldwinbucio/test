@@ -1,10 +1,9 @@
 import type { Conversation, Message } from '../types/message';
 
-// Simulated API data
-// No dummy data, just empty arrays and stubs for backend integration
+
 
 export async function fetchConversations(): Promise<Conversation[]> {
-  // TODO: Replace with real API call
+  
   return [];
 }
 

@@ -12,7 +12,7 @@ type Proposal = {
   documents: { name: string; size: string }[];
 };
 
-// Example proposals data
+// dummy data sa proposals
 const proposals: Proposal[] = [
   {
     id: 1,
