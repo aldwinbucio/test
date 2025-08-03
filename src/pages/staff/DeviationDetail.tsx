@@ -11,7 +11,7 @@ const dummyDeviations = [
     severity: 'Minor',
     status: 'Pending/View',
     description: 'The Informed Consent that was given to the participant is not the updated informed consent',
-    review: 'Send the updated Informed Consent Form to the Participants',
+    review: '',
     correctiveAction: '',
   },
  

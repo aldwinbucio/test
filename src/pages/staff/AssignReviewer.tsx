@@ -41,12 +41,12 @@ const AssignReviewer = () => {
     setAssigned(prev => prev.map((a, i) => (i === idx ? true : a)));
     setStatus(prev => prev.map((s, i) => (i === idx ? 'Not Available' : s)));
     setShowNotif(true);
-    setTimeout(() => setNotifAnim(true), 10); // trigger animation
+    setTimeout(() => setNotifAnim(true), 10); 
   };
 
   const closeNotif = () => {
     setNotifAnim(false);
-    setTimeout(() => setShowNotif(false), 200); // match animation duration
+    setTimeout(() => setShowNotif(false), 200); 
   };
 
   return (

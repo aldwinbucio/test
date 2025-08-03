@@ -21,6 +21,7 @@ import { RippleButton } from './components/animate-ui/buttons/ripple';
 import STrends from './pages/staff/Trends';
 import RDeviations from './pages/researcher/Deviations';
 import DeviationDetail from './pages/staff/DeviationDetail';
+import DeviationReportForm from './pages/researcher/DeviationReportForm';
 
 
 function App() {
@@ -59,6 +60,7 @@ function App() {
             <Route path="/sdevi" element={<SDeviations />} />
             <Route path="/staff/deviations/:id" element={<DeviationDetail />} />
             <Route path="/rdevi" element={<RDeviations />} />
+            <Route path="/rdevi1" element={<DeviationReportForm />} />
             <Route path="/ssubm" element={<SSubmissions />} />
             <Route path="/ssubm/sub1" element={<SSubmissions />} />
             <Route path="/screate-announcement" element={<CreateAnnouncement />} />
