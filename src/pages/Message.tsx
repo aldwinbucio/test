@@ -1,8 +1,58 @@
-
 import { useState, useEffect } from 'react';
 import { Phone, X, Paperclip } from 'lucide-react';
 import type { Conversation, Message } from '../types/message';
 import { fetchConversations, fetchMessages, sendMessage } from '../services/messageService';
+
+// dummy data for initial conversations and messages
+const dummyConversations: Conversation[] = [
+  {
+    id: 1,
+    name: 'Alice Johnson',
+    avatar: 'img.jpg',
+    lastMessage: 'See you soon!',
+    preview: 'See you soon!',
+    time: '09:15',
+  },
+  {
+    id: 2,
+    name: 'Bob Smith',
+    avatar: 'img.jpg',
+    lastMessage: 'Thanks for the update.',
+    preview: 'Thanks for the update.',
+    time: 'Yesterday',
+  },
+];
+
+const dummyMessages: Record<number, Message[]> = {
+  1: [
+    {
+      from: 'Alice Johnson',
+      avatar: 'img.jpg',
+      text: 'Hey! Are we still meeting at 10?',
+      time: '09:10',
+    },
+    {
+      from: 'You',
+      avatar: '',
+      text: 'Yes, see you soon!',
+      time: '09:15',
+    },
+  ],
+  2: [
+    {
+      from: 'Bob Smith',
+      avatar: 'img.jpg',
+      text: 'Thanks for the update.',
+      time: 'Yesterday',
+    },
+    {
+      from: 'You',
+      avatar: '',
+      text: 'No problem!',
+      time: 'Yesterday',
+    },
+  ],
+};
 
 
 const filters = [
@@ -21,16 +71,27 @@ export default function Message() {
   // Fetch conversations on mount
   useEffect(() => {
     fetchConversations().then(data => {
-      setConversations(data);
-      setSelectedId(data[0]?.id ?? null);
+      if (data && data.length > 0) {
+        setConversations(data);
+        setSelectedId(data[0]?.id ?? null);
+      } else {
+        setConversations(dummyConversations);
+        setSelectedId(dummyConversations[0].id);
+      }
       setLoading(false);
     });
   }, []);
 
-  // Fetch messages when selectedId changes
+  // Fetch messages when selectedId changes 
   useEffect(() => {
     if (selectedId !== null) {
-      fetchMessages(selectedId).then(setMessages);
+      fetchMessages(selectedId).then(data => {
+        if (data && data.length > 0) {
+          setMessages(data);
+        } else {
+          setMessages(dummyMessages[selectedId] || []);
+        }
+      });
     }
   }, [selectedId]);
 
@@ -55,6 +116,8 @@ export default function Message() {
     setInput('');
     setSending(false);
   };
+
+  //
 
   return (
     <div className="flex h-[85vh] max-w-6xl mx-auto bg-gradient-to-br from-gray-50 to-purple-50/50 rounded-3xl shadow-2xl overflow-hidden border-2 border-purple-100 mt-6 backdrop-blur-sm">

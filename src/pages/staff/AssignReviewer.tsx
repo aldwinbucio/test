@@ -4,28 +4,28 @@ const reviewers = [
   {
     id: 1,
     name: 'Dr. Aldwin James Bucio',
-    avatar: 'https://randomuser.me/api/portraits/men/1.jpg',
+    avatar: 'img.jpg',
     status: 'Available',
     assigned: false,
   },
   {
     id: 2,
     name: 'Prof. Angelo Casana',
-    avatar: 'https://randomuser.me/api/portraits/men/2.jpg',
+    avatar: 'img.jpg',
     status: 'Available',
     assigned: false,
   },
   {
     id: 3,
     name: 'Dr. John Doe',
-    avatar: 'https://randomuser.me/api/portraits/men/3.jpg',
+    avatar: 'img.jpg',
     status: 'Not Available',
     assigned: true,
   },
   {
     id: 4,
     name: 'Prof. John Wick',
-    avatar: 'https://randomuser.me/api/portraits/men/4.jpg',
+    avatar: 'img.jpg',
     status: 'Not Available',
     assigned: true,
   },
@@ -51,7 +51,7 @@ const AssignReviewer = () => {
 
   return (
     <div className="p-6 relative min-h-[400px]">
-      <h1 className="text-3xl font-semibold mb-6">Assign Reviewer</h1>
+      <h1 className="text-3xl font-semibold mb-6">Assign Reviewers</h1>
       <div className="overflow-x-auto">
         <table className="min-w-[600px] w-full bg-white rounded-lg">
           <thead>
