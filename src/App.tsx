@@ -22,6 +22,9 @@ import STrends from './pages/staff/Trends';
 import RDeviations from './pages/researcher/Deviations';
 import DeviationDetail from './pages/staff/DeviationDetail';
 import DeviationReportForm from './pages/researcher/DeviationReportForm';
+import ReviewerDashboard from './pages/reviewer/Dashboard';
+import AssignedReviews from './pages/reviewer/AssignedReviews';
+import ReviewDetails from './pages/reviewer/ReviewDetails';
 
 
 function App() {
@@ -66,6 +69,9 @@ function App() {
             <Route path="/screate-announcement" element={<CreateAnnouncement />} />
             <Route path="/smessages" element={<Message />} />
             <Route path="*" element={<SDashboard />} />
+            <Route path="/reviewerdashboard" element={<ReviewerDashboard />} />
+            <Route path="/reviewerreviews" element={<AssignedReviews />} />
+           <Route path="/reviewer/review-details" element={<ReviewDetails />} />
           </Route>
         </Routes>
       </Router>
