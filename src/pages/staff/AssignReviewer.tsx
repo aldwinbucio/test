@@ -7,6 +7,7 @@ const reviewers = [
     avatar: 'img.jpg',
     status: 'Available',
     assigned: false,
+    specialty: 'Health & Medicine',
   },
   {
     id: 2,
@@ -14,6 +15,7 @@ const reviewers = [
     avatar: 'img.jpg',
     status: 'Available',
     assigned: false,
+    specialty: 'Technology',
   },
   {
     id: 3,
@@ -21,6 +23,7 @@ const reviewers = [
     avatar: 'img.jpg',
     status: 'Not Available',
     assigned: true,
+    specialty: 'Public Health',
   },
   {
     id: 4,
@@ -28,6 +31,7 @@ const reviewers = [
     avatar: 'img.jpg',
     status: 'Not Available',
     assigned: true,
+    specialty: 'Law & Ethics',
   },
 ];
 
@@ -51,12 +55,13 @@ const AssignReviewer = () => {
 
   return (
     <div className="p-6 relative min-h-[400px]">
-      <h1 className="text-3xl font-semibold mb-6">Assign Reviewers</h1>
+      <h1 className="text-3xl font-semibold mb-6">Assign Reviewer</h1>
       <div className="overflow-x-auto">
         <table className="min-w-[600px] w-full bg-white rounded-lg">
           <thead>
             <tr>
               <th className="text-left px-6 py-3 text-lg font-bold">Reviewer</th>
+              <th className="text-left px-6 py-3 text-lg font-bold">Specialty</th>
               <th className="text-left px-6 py-3 text-lg font-bold">Status</th>
               <th className="text-left px-6 py-3 text-lg font-bold">Action</th>
             </tr>
@@ -67,6 +72,9 @@ const AssignReviewer = () => {
                 <td className="flex items-center gap-4 px-6 py-4">
                   <img src={rev.avatar} alt={rev.name} className="w-14 h-14 rounded-full object-cover" />
                   <span className="font-medium text-base">{rev.name}</span>
+                </td>
+                <td className="px-6 py-4">
+                  <span className="text-gray-700 font-medium">{rev.specialty}</span>
                 </td>
                 <td className="px-6 py-4">
                   <span className={

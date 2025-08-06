@@ -157,9 +157,9 @@ const DeviationReportForm = () => {
 
     <div className="flex justify-center mb-8">
       <img
-        src="https://lh5.googleusercontent.com/a9L9N_7g4D5_bkKcnhArV73rnftauBNt7Ruv3MOijPk1gTwlmKZsOlQAjVcQXaoV0BAVzWp0rUNIUfSf6_q58UtRb-qheAaDLPubqDzZfB9xGkjGlejoGzz7AUh-8pOip_6Y8Wtumg=w16383" 
+        src="https://lh5.googleusercontent.com/70wFfDIl5hsR6WL9mOH8inWiKbK17KA2pLyr1nwcRGRMZbj8ma9MUDTyKXw8gF47y_naDG8cTs42Jv63y5AjtHbKJjCgoCM-3HROEQnAnvPtpxVV2yoa8Rw4JPA88RHdD2a29zyBaA=w16383" 
         alt="Institution Logo"
-        className="h-30 w-auto object-contain"
+        className="h-35 w-auto object-contain"
       />
     </div>
     <h1 className="text-3xl font-bold text-black mb-8 text-center tracking-tight">
