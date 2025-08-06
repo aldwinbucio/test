@@ -60,23 +60,23 @@ export default function AssignedReviews() {
             </button>
           ))}
         </div>
-        <div className="bg-white rounded-2xl shadow border border-gray-100">
-          <table className="w-full text-left">
+        <div className="bg-white rounded-2xl shadow border border-gray-200 overflow-x-auto">
+          <table className="min-w-full text-left table-fixed">
             <thead>
-              <tr className="border-b">
-                <th className="px-6 py-4 text-gray-500 font-semibold">Proposal Title</th>
-                <th className="px-6 py-4 text-gray-500 font-semibold">Date Assigned</th>
-                <th className="px-6 py-4 text-gray-500 font-semibold">Due Date</th>
-                <th className="px-6 py-4 text-gray-500 font-semibold">Researcher</th>
-                <th className="px-6 py-4 text-gray-500 font-semibold">Status</th>
-                <th className="px-6 py-4 text-gray-500 font-semibold">Actions</th>
+              <tr>
+                <th className="px-6 py-4 text-gray-500 font-semibold" style={{width: '32%'}}>Proposal Title</th>
+                <th className="px-6 py-4 text-gray-500 font-semibold" style={{width: '14%'}}>Date Assigned</th>
+                <th className="px-6 py-4 text-gray-500 font-semibold" style={{width: '14%'}}>Due Date</th>
+                <th className="px-6 py-4 text-gray-500 font-semibold" style={{width: '16%'}}>Researcher</th>
+                <th className="px-6 py-4 text-gray-500 font-semibold" style={{width: '14%'}}>Status</th>
+                <th className="px-6 py-4 text-gray-500 font-semibold" style={{width: '10%'}}>Actions</th>
               </tr>
             </thead>
             <tbody>
               {filteredReviews.map((r, idx) => (
-                <tr key={idx} className="border-b last:border-b-0">
-                  <td className="px-6 py-4 whitespace-nowrap text-blue-700">{r.title}</td>
-                  <td className="px-6 py-4 whitespace-nowrap font-medium">{r.dateAssigned}</td>
+                <tr key={idx} className="border-b border-gray-200 last:border-b-0">
+                  <td className="px-6 py-4 whitespace-nowrap text-blue-700" style={{maxWidth: '0', overflow: 'hidden', textOverflow: 'ellipsis'}}>{r.title}</td>
+                  <td className="px-6 py-4 whitespace-nowrap font-medium" style={{paddingLeft: '1rem'}}>{r.dateAssigned}</td>
                   <td className="px-6 py-4 whitespace-nowrap font-medium">{r.dueDate}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className="bg-blue-100 px-4 py-2 rounded-full font-semibold text-sm">{r.researcher}</span>
