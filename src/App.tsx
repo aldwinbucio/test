@@ -1,3 +1,5 @@
+
+        
 import ReviewSubmission from './pages/staff/ReviewSubmission';
 import AssignReviewer from './pages/staff/AssignReviewer';
 import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
@@ -7,7 +9,7 @@ import { SidebarProvider } from './components/ui/sidebar';
 import './App.css';
 import { data } from "@/Data"
 
-
+import CorrectiveActionRequest from './pages/staff/CorrectiveActionRequest';
 import SDashboard from './pages/staff/Dashboard';
 import CreateAnnouncement from './pages/CreateAnnouncement';
 import Message from './pages/Message';
@@ -72,6 +74,7 @@ function App() {
             <Route path="/reviewerdashboard" element={<ReviewerDashboard />} />
             <Route path="/reviewerreviews" element={<AssignedReviews />} />
            <Route path="/reviewer/review-details" element={<ReviewDetails />} />
+           <Route path="/staff/corrective-action-request" element={<CorrectiveActionRequest />} />
           </Route>
         </Routes>
       </Router>

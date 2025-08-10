@@ -118,20 +118,13 @@ const DeviationDetail = () => {
           </button>
         </div>
         <div className="flex-1 border border-red-200 rounded-xl p-6 min-h-[120px] bg-gray-50 flex flex-col">
-          <div className="font-semibold mb-2 text-[18px]">Require Corrective Action</div>
-          <textarea
-            className="mb-4 text-gray-700 text-base flex-1 whitespace-pre-line bg-gray-100 border border-gray-300 rounded-lg p-3 resize-none focus:outline-none focus:ring-2 focus:ring-blue-200"
-            rows={4}
-            value={correctiveText}
-            onChange={e => setCorrectiveText(e.target.value)}
-            placeholder="Enter corrective action..."
-          />
-          <button
-            className="text-black font-semibold w-fit mt-auto"
-            onClick={() => showNotification('Corrective action required!', '⚠️')}
-          >
-            Click Here &rarr;
-          </button>
+            <div className="font-semibold mb-2 text-[18px]">Require Corrective Action</div>
+            <button
+              className="text-black font-semibold w-fit mt-auto"
+              onClick={() => navigate('/staff/corrective-action-request')}
+            >
+              Click Here &rarr;
+            </button>
         </div>
       </div>
       {/* Animated na notification */}
