@@ -1,3 +1,4 @@
+    // Removed misplaced duplicate 'Message' tab object
 import {
   BookCopy,
   Megaphone,
@@ -10,7 +11,6 @@ import {
   type LucideIcon,
 } from "lucide-react"
 
-// Types remain the same for structure
 export type {
   User,
   Organization,
@@ -68,12 +68,11 @@ type AppData = {
   projects: any[];
 };
 
-// Keep only essential static data that doesn't come from API
 export const data: AppData = {
   user: {
-    name: "",
-    role: "",
-    email: "",
+    name: "shadcn",
+    role: "Researcher",
+    email: "m@example.com",
     avatar: "/avatars/shadcn.jpg",
   },
   main: [
@@ -83,7 +82,6 @@ export const data: AppData = {
       plan: 'Enterprise',
     }
   ],
-  // Navigation structure - this can remain static
   navMain: [
     {
       title: "Dashboard",
@@ -163,6 +161,13 @@ export const data: AppData = {
       icon: Settings,
     },
   ],
-  subm: [], // Will be populated from API
+  subm: [
+    { month: "January", desktop: 186, mobile: 80 },
+    { month: "February", desktop: 305, mobile: 200 },
+    { month: "March", desktop: 237, mobile: 120 },
+    { month: "April", desktop: 73, mobile: 190 },
+    { month: "May", desktop: 209, mobile: 130 },
+    { month: "June", desktop: 214, mobile: 140 },
+  ],
   projects: [],
 };

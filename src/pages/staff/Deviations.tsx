@@ -11,20 +11,74 @@ type Deviation = {
   status: string;
 };
 
-// API service for deviations
-const API_BASE_URL = process.env.REACT_APP_API_URL || '/api';
+const dummyDeviations: Deviation[] = [
+  {
+    id: 1,
+    title: 'Study of Aging and Memory',
+    researcher: 'Jane Smith',
+    dateReported: '02/01/2023',
+    type: 'Informed Consent',
+    severity: 'Minor',
+    status: 'Resolved',
+  },
+  {
+    id: 2,
+    title: 'COVID-19 Vaccine Efficacy',
+    researcher: 'John Doe',
+    dateReported: '02/01/2023',
+    type: 'Informed Consent',
+    severity: 'Minor',
+    status: 'Resolved',
+  },
+  {
+    id: 3,
+    title: 'Nutritional Habits in Adolescents',
+    researcher: 'Sarah Johnson',
+    dateReported: '02/01/2023',
+    type: 'Informed Consent',
+    severity: 'Not Assigned',
+    status: 'Pending/View',
+  },
+  {
+    id: 4,
+    title: 'Mental Health Treatment Outcomes',
+    researcher: 'Michael Brown',
+    dateReported: '02/01/2023',
+    type: 'Adverse Events',
+    severity: 'Major',
+    status: 'In Review',
+  },
+  {
+    id: 5,
+    title: 'Environmental Factors and Allergies',
+    researcher: 'David Lee',
+    dateReported: '02/01/2023',
+    type: 'Sample Collection',
+    severity: 'Not Assigned',
+    status: 'Pending/View',
+  },
+  {
+    id: 6,
+    title: 'Employment Practices in Tech Industry',
+    researcher: 'Emily Davis',
+    dateReported: '02/01/2023',
+    type: 'Confidentiality Breach',
+    severity: 'Major',
+    status: 'Resolved',
+  },
+  {
+    id: 7,
+    title: 'Agricultural Innovations and Crop Yield',
+    researcher: 'Daniel Kim',
+    dateReported: '02/01/2023',
+    type: 'Regulatory Compliance',
+    severity: 'Not Assigned',
+    status: 'Pending/View',
+  },
+];
 
 const fetchDeviations = async (): Promise<Deviation[]> => {
-  try {
-    const response = await fetch(`${API_BASE_URL}/deviations`);
-    if (!response.ok) {
-      throw new Error('Failed to fetch deviations');
-    }
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching deviations:', error);
-    return [];
-  }
+  return dummyDeviations;
 };
 
 const SDeviations = () => {
@@ -37,19 +91,16 @@ const SDeviations = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const loadDeviations = async () => {
-      const data = await fetchDeviations();
+    fetchDeviations().then(data => {
       setDeviations(data);
       setLoading(false);
-    };
-    
-    loadDeviations();
+    });
   }, []);
 
   // filiter options
-  const severityOptions = ['All', ...Array.from(new Set(deviations.map(d => d.severity)))];
-  const typeOptions = ['All', ...Array.from(new Set(deviations.map(d => d.type)))];
-  const statusOptions = ['All', ...Array.from(new Set(deviations.map(d => d.status)))];
+  const severityOptions = ['All', ...Array.from(new Set(dummyDeviations.map(d => d.severity)))];
+  const typeOptions = ['All', ...Array.from(new Set(dummyDeviations.map(d => d.type)))];
+  const statusOptions = ['All', ...Array.from(new Set(dummyDeviations.map(d => d.status)))];
 
   // Filter para sa deviations
   const filtered = deviations.filter(dev => {

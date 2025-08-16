@@ -2,43 +2,79 @@ import { DataTablePagination } from "../pagination"
 import { columns, type Payment } from "./columns"
 import { DataTable } from "./data-table"
 
-// API service for proposals
-const API_BASE_URL = process.env.REACT_APP_API_URL || '/api';
-
 async function getData(): Promise<Payment[]> {
-  try {
-    const response = await fetch(`${API_BASE_URL}/proposals`);
-    if (!response.ok) {
-      throw new Error('Failed to fetch proposals');
-    }
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching proposals:', error);
-    return [];
-  }
+  return [
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "Pending Result",
+      email: "m@example.com",
+    },
+    {
+      id: "as",
+      amount: 100,
+      status: "Pending Result",
+      email: "a@example.com",
+    },
+    {
+      id: "adssa",
+      amount: 100,
+      status: "Pending Result",
+      email: "q@example.com",
+    },
+    {
+      id: "asdasdasd",
+      amount: 100,
+      status: "Pending Result",
+      email: "x@example.com",
+    },
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "Pending Result",
+      email: "m@example.com",
+    },
+    {
+      id: "as",
+      amount: 100,
+      status: "Pending Result",
+      email: "a@example.com",
+    },
+    {
+      id: "adssa",
+      amount: 100,
+      status: "Pending Result",
+      email: "q@example.com",
+    },
+    {
+      id: "asdasdasd",
+      amount: 100,
+      status: "Pending Result",
+      email: "x@example.com",
+    },
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "Pending Result",
+      email: "m@example.com",
+    },
+    {
+      id: "as",
+      amount: 100,
+      status: "Pending Result",
+      email: "a@example.com",
+    },
+    {
+      id: "adssa",
+      amount: 100,
+      status: "Pending Result",
+      email: "q@example.com",
+    },
+  ]
 }
 
-export default function ProposalsTable() {
-  const [data, setData] = React.useState<Payment[]>([]);
-  const [loading, setLoading] = React.useState(true);
-
-  React.useEffect(() => {
-    const loadData = async () => {
-      const proposals = await getData();
-      setData(proposals);
-      setLoading(false);
-    };
-    
-    loadData();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="container mx-auto py-10">
-        <div className="text-center">Loading proposals...</div>
-      </div>
-    );
-  }
+export default async function ProposalsTable() {
+  const data = await getData()
 
   return (
     <div className="container mx-auto py-10">

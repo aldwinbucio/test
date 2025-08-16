@@ -1,91 +1,24 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// API service for review details
-const API_BASE_URL = process.env.REACT_APP_API_URL || '/api';
-
-type ReviewData = {
-  id: number;
-  status: string;
-  researchTitle: string;
-  researcherName: string;
-  researcherEmail: string;
-  submissionDate: string;
-  reviewType: string;
-  documents: { name: string; size: string }[];
+const reviewData = {
+  status: 'Pending Review',
+  researchTitle: 'Exploring Genetic Markers for Heart Disease Risk',
+  researcherName: 'Aldwin Bucio',
+  researcherEmail: 'aldwinbucio123xd@gmail.com',
+  submissionDate: 'Nov 10, 2023',
+  reviewType: 'Expedited',
+  documents: [
+    { name: 'Project Proposal.pdf', size: '1.2 mb' },
+    { name: 'Informed Consent Form.pdf', size: '150 kb' },
+    { name: 'Participant Recruitment Plan.pdf', size: '300 kb' },
+  ],
 };
-
-const fetchReviewDetails = async (reviewId: number): Promise<ReviewData | null> => {
-  try {
-    const response = await fetch(`${API_BASE_URL}/reviews/${reviewId}`);
-    if (!response.ok) {
-      throw new Error('Failed to fetch review details');
-    }
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching review details:', error);
-    return null;
-  }
-};
-
-const submitReview = async (reviewId: number, result: string, feedback: string): Promise<boolean> => {
-  try {
-    const response = await fetch(`${API_BASE_URL}/reviews/${reviewId}/submit`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ result, feedback }),
-    });
-    return response.ok;
-  } catch (error) {
-    console.error('Error submitting review:', error);
-    return false;
-  }
-};
-
 export default function ReviewDetails() {
-  const [reviewData, setReviewData] = useState<ReviewData | null>(null);
-  const [loading, setLoading] = useState(true);
   const [result, setResult] = useState('');
   const [feedback, setFeedback] = useState('');
   const [showNotif, setShowNotif] = useState(false);
   const navigate = useNavigate();
-
-  // Load review details on mount
-  React.useEffect(() => {
-    const loadReviewDetails = async () => {
-      // TODO: Get review ID from URL params or props
-      const reviewId = 1; // This should come from route params
-      const data = await fetchReviewDetails(reviewId);
-      setReviewData(data);
-      setLoading(false);
-    };
-    
-    loadReviewDetails();
-  }, []);
-
-  const handleSubmitReview = async () => {
-    if (!reviewData || !result || !feedback.trim()) {
-      alert('Please select a result and provide feedback');
-      return;
-    }
-    
-    const success = await submitReview(reviewData.id, result, feedback);
-    if (success) {
-      setShowNotif(true);
-    } else {
-      alert('Failed to submit review. Please try again.');
-    }
-  };
-
-  if (loading) {
-    return <div className="max-w-3xl mx-auto py-10 px-4">Loading review details...</div>;
-  }
-
-  if (!reviewData) {
-    return <div className="max-w-3xl mx-auto py-10 px-4">Review not found.</div>;
-  }
 
   return (
     
@@ -159,7 +92,7 @@ export default function ReviewDetails() {
         <button className="bg-gray-100 px-6 py-2 rounded-lg font-semibold text-gray-700 hover:bg-gray-200">Cancel</button>
         <button
           className="bg-blue-600 px-6 py-2 rounded-lg font-semibold text-white hover:bg-blue-700"
-          onClick={handleSubmitReview}
+          onClick={() => setShowNotif(true)}
         >
           Submit Review
         </button>
