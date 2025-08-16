@@ -3,58 +3,6 @@ import { Phone, X, Paperclip } from 'lucide-react';
 import type { Conversation, Message } from '../types/message';
 import { fetchConversations, fetchMessages, sendMessage } from '../services/messageService';
 
-// dummy data for initial conversations and messages
-const dummyConversations: Conversation[] = [
-  {
-    id: 1,
-    name: 'Alice Johnson',
-    avatar: 'img.jpg',
-    lastMessage: 'See you soon!',
-    preview: 'See you soon!',
-    time: '09:15',
-  },
-  {
-    id: 2,
-    name: 'Bob Smith',
-    avatar: 'img.jpg',
-    lastMessage: 'Thanks for the update.',
-    preview: 'Thanks for the update.',
-    time: 'Yesterday',
-  },
-];
-
-const dummyMessages: Record<number, Message[]> = {
-  1: [
-    {
-      from: 'Alice Johnson',
-      avatar: 'img.jpg',
-      text: 'Hey! Are we still meeting at 10?',
-      time: '09:10',
-    },
-    {
-      from: 'You',
-      avatar: '',
-      text: 'Yes, see you soon!',
-      time: '09:15',
-    },
-  ],
-  2: [
-    {
-      from: 'Bob Smith',
-      avatar: 'img.jpg',
-      text: 'Thanks for the update.',
-      time: 'Yesterday',
-    },
-    {
-      from: 'You',
-      avatar: '',
-      text: 'No problem!',
-      time: 'Yesterday',
-    },
-  ],
-};
-
-
 const filters = [
   'Unread', 'All', 'Students', 'Faculty', 'Staff', 'Today', 'This week'
 ];
@@ -70,28 +18,37 @@ export default function Message() {
 
   // Fetch conversations on mount
   useEffect(() => {
-    fetchConversations().then(data => {
-      if (data && data.length > 0) {
+    const loadConversations = async () => {
+      try {
+        const data = await fetchConversations();
         setConversations(data);
-        setSelectedId(data[0]?.id ?? null);
-      } else {
-        setConversations(dummyConversations);
-        setSelectedId(dummyConversations[0].id);
+        if (data.length > 0) {
+          setSelectedId(data[0].id);
+        }
+      } catch (error) {
+        console.error('Failed to fetch conversations:', error);
+        setConversations([]);
       }
       setLoading(false);
-    });
+    };
+    
+    loadConversations();
   }, []);
 
   // Fetch messages when selectedId changes 
   useEffect(() => {
     if (selectedId !== null) {
-      fetchMessages(selectedId).then(data => {
-        if (data && data.length > 0) {
+      const loadMessages = async () => {
+        try {
+          const data = await fetchMessages(selectedId);
           setMessages(data);
-        } else {
-          setMessages(dummyMessages[selectedId] || []);
+        } catch (error) {
+          console.error('Failed to fetch messages:', error);
+          setMessages([]);
         }
-      });
+      };
+      
+      loadMessages();
     }
   }, [selectedId]);
 
@@ -100,20 +57,26 @@ export default function Message() {
   const handleSend = async () => {
     if (!input.trim() || !selectedId) return;
     setSending(true);
+    
     const newMsg: Message = {
       from: 'You',
       avatar: '',
       text: input,
       time: 'now',
     };
-    await sendMessage(selectedId, newMsg);
-    setMessages(prev => [...prev, newMsg]);
-    setConversations(prev => prev.map(conv =>
-      conv.id === selectedId
-        ? { ...conv, lastMessage: input, preview: input, time: 'now' }
-        : conv
-    ));
-    setInput('');
+    
+    try {
+      await sendMessage(selectedId, newMsg);
+      setMessages(prev => [...prev, newMsg]);
+      setConversations(prev => prev.map(conv =>
+        conv.id === selectedId
+          ? { ...conv, lastMessage: input, preview: input, time: 'now' }
+          : conv
+      ));
+      setInput('');
+    } catch (error) {
+      console.error('Failed to send message:', error);
+    }
     setSending(false);
   };
 

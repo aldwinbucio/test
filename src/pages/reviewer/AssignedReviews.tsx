@@ -1,22 +1,30 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const reviews = [
-  {
-    title: 'Exploring Genetic Markers for Heart Disease Risk',
-    dateAssigned: 'Oct 26,2023',
-    dueDate: 'Nov 10,2023',
-    researcher: 'Dr. Aldwin Bucio',
-    status: 'Pending Review',
-  },
-  {
-    title: "Efficacy of Novel Therapies for Alzheimer's Disease",
-    dateAssigned: 'Oct 27,2023',
-    dueDate: 'Nov 12,2023',
-    researcher: 'Dr. Sophia Walker',
-    status: 'Pending Review',
-  },
-];
+// API service for assigned reviews
+const API_BASE_URL = process.env.REACT_APP_API_URL || '/api';
+
+type Review = {
+  id: number;
+  title: string;
+  dateAssigned: string;
+  dueDate: string;
+  researcher: string;
+  status: string;
+};
+
+const fetchAssignedReviews = async (): Promise<Review[]> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/reviewer/assigned-reviews`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch assigned reviews');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching assigned reviews:', error);
+    return [];
+  }
+};
 
 const tabs = [
   { label: 'All', value: 'all' },
@@ -28,8 +36,20 @@ const tabs = [
 export default function AssignedReviews() {
   const [search, setSearch] = useState('');
   const [tab, setTab] = useState('all');
-  const [page, setPage] = useState(1);
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
+  // Load assigned reviews on mount
+  React.useEffect(() => {
+    const loadReviews = async () => {
+      const data = await fetchAssignedReviews();
+      setReviews(data);
+      setLoading(false);
+    };
+    
+    loadReviews();
+  }, []);
 
   // Filter logic placeholder
   const filteredReviews = reviews.filter(r =>
@@ -60,6 +80,10 @@ export default function AssignedReviews() {
             </button>
           ))}
         </div>
+        
+        {loading ? (
+          <div className="text-center py-8">Loading assigned reviews...</div>
+        ) : (
         <div className="bg-white rounded-2xl shadow border border-gray-200 overflow-x-auto">
           <table className="min-w-full text-left table-fixed">
             <thead>
@@ -97,6 +121,8 @@ export default function AssignedReviews() {
             </tbody>
           </table>
         </div>
+        )}
+        
         {/* Pagination */}
         <div className="flex justify-center items-center gap-4 mt-8">
           <button className="text-gray-400 text-xl" disabled>{'<'}</button>

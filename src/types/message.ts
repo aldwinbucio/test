@@ -12,5 +12,4 @@ export interface Conversation {
   lastMessage: string;
   time: string;
   preview: string;
-  messages: Message[];
 }

@@ -1,27 +1,42 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
-const dummyDeviations = [
-  {
-    id: 3,
-    title: 'Nutritional Habits in Adolescents',
-    researcher: 'Sarah Johnson',
-    dateReported: '02/01/2023',
-    type: 'Informed Consent',
-    severity: 'Minor',
-    status: 'Pending/View',
-    description: 'The Informed Consent that was given to the participant is not the updated informed consent',
-    review: '',
-    correctiveAction: '',
-  },
- 
-];
+// API service for deviation details
+const API_BASE_URL = process.env.REACT_APP_API_URL || '/api';
+
+type DeviationDetail = {
+  id: number;
+  title: string;
+  researcher: string;
+  dateReported: string;
+  type: string;
+  severity: string;
+  status: string;
+  description: string;
+  review: string;
+  correctiveAction: string;
+};
+
+const fetchDeviationDetail = async (id: number): Promise<DeviationDetail | null> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/deviations/${id}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch deviation detail');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching deviation detail:', error);
+    return null;
+  }
+};
 
 const DeviationDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const deviation = dummyDeviations.find(d => d.id === Number(id));
-  const [severity, setSeverity] = React.useState(deviation ? deviation.severity : 'Minor');
+  
+  const [deviation, setDeviation] = React.useState<DeviationDetail | null>(null);
+  const [loading, setLoading] = React.useState(true);
+  const [severity, setSeverity] = React.useState('Minor');
   const [showNotif, setShowNotif] = React.useState(false);
   const [notifAnim, setNotifAnim] = React.useState(false);
   const [notifMsg, setNotifMsg] = React.useState('');
@@ -29,6 +44,24 @@ const DeviationDetail = () => {
 
   const [reviewText, setReviewText] = React.useState('');
   const [correctiveText, setCorrectiveText] = React.useState('');
+
+  // Fetch deviation details on mount
+  React.useEffect(() => {
+    const loadDeviation = async () => {
+      if (id) {
+        const data = await fetchDeviationDetail(Number(id));
+        setDeviation(data);
+        if (data) {
+          setReviewText(data.review || '');
+          setCorrectiveText(data.correctiveAction || '');
+          setSeverity(data.severity || 'Minor');
+        }
+      }
+      setLoading(false);
+    };
+    
+    loadDeviation();
+  }, [id]);
 
   React.useEffect(() => {
     if (deviation) {
@@ -48,6 +81,10 @@ const DeviationDetail = () => {
     setNotifAnim(false);
     setTimeout(() => setShowNotif(false), 200);
   };
+
+  if (loading) {
+    return <div className="p-8">Loading deviation details...</div>;
+  }
 
   if (!deviation) {
     return <div className="p-8">Deviation not found.</div>;

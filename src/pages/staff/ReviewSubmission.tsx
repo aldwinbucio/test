@@ -12,47 +12,72 @@ type Proposal = {
   documents: { name: string; size: string }[];
 };
 
-// dummy data sa proposals
-const proposals: Proposal[] = [
-  {
-    id: 1,
-    title: 'Exploring Genetic Markers for Heart Disease Risk',
-    researcher: 'Aldwin Bucio',
-    date: '2023-11-10',
-    reviewer: 'Dr. Angelo Casana',
-    outcome: 'Approved',
-    status: 'Approved',
-    feedback: 'After careful review, I find the research proposal to be ethically sound and methodologically appropriate. The informed consent process is clearly outlined, and potential risks to participants are minimal and well-managed. I recommend approval with no revisions.',
-    documents: [
-      { name: 'Project Proposal.pdf', size: '1.2 mb' },
-      { name: 'Informed Consent Form.pdf', size: '150 kb' },
-    ],
-  },
-  {
-    id: 2,
-    title: 'Efficacy of Novel Therapies for Alzheimer’s Disease',
-    researcher: 'Jane Smith',
-    date: '2023-11-12',
-    reviewer: 'Dr. John Doe',
-    outcome: 'Requires Revision',
-    status: 'Requires Revision',
-    feedback: 'Please clarify the participant selection criteria and provide more detail on risk mitigation.',
-    documents: [
-      { name: 'Alzheimer Proposal.pdf', size: '2.1 mb' },
-    ],
-  },
-];
+// API service for proposals
+const API_BASE_URL = process.env.REACT_APP_API_URL || '/api';
 
+const fetchProposals = async (): Promise<Proposal[]> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/proposals/reviewed`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch proposals');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching proposals:', error);
+    return [];
+  }
+};
+
+const updateProposalStatus = async (proposalId: number, status: string, decision: string): Promise<boolean> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/proposals/${proposalId}/status`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ status, decision }),
+    });
+    return response.ok;
+  } catch (error) {
+    console.error('Error updating proposal status:', error);
+    return false;
+  }
+};
 
 const ReviewSubmission = () => {
+  const [proposals, setProposals] = useState<Proposal[]>([]);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [selected, setSelected] = useState<Proposal | null>(null);
+
+  // Load proposals on mount
+  React.useEffect(() => {
+    const loadProposals = async () => {
+      const data = await fetchProposals();
+      setProposals(data);
+      setLoading(false);
+    };
+    
+    loadProposals();
+  }, []);
 
   const filtered = proposals.filter((p) =>
     p.title.toLowerCase().includes(search.toLowerCase()) ||
     p.researcher.toLowerCase().includes(search.toLowerCase())
   );
+
+  const handleStatusUpdate = async (proposalId: number, status: string, decision: string) => {
+    const success = await updateProposalStatus(proposalId, status, decision);
+    if (success) {
+      setProposals(prev => prev.map(p => 
+        p.id === proposalId 
+          ? { ...p, status, outcome: decision }
+          : p
+      ));
+      setShowModal(false);
+    }
+  };
 
   return (
     <div className="p-6 max-w-5xl mx-auto">
@@ -70,6 +95,10 @@ const ReviewSubmission = () => {
           />
         </div>
       </div>
+      
+      {loading ? (
+        <div className="text-center py-8">Loading proposals...</div>
+      ) : (
       <div className="overflow-x-auto rounded-xl border border-gray-200 bg-white mt-6">
         <table className="min-w-full text-sm">
           <thead className="bg-gray-50">
@@ -107,6 +136,8 @@ const ReviewSubmission = () => {
           </tbody>
         </table>
       </div>
+      )}
+      
       {/* Modal for View Details */}
       {showModal && selected && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30">
@@ -190,7 +221,12 @@ const ReviewSubmission = () => {
             {/* Modal Actions */}
             <div className="flex justify-end gap-2 mt-4">
               <button className="px-4 py-2 rounded bg-gray-100 text-gray-700 hover:bg-gray-200" onClick={() => setShowModal(false)}>Cancel</button>
-              <button className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700" onClick={() => { setShowModal(false); alert('Submitted!'); }}>Submit</button>
+              <button 
+                className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700" 
+                onClick={() => handleStatusUpdate(selected.id, 'Approved', 'Approved')}
+              >
+                Submit
+              </button>
             </div>
           </div>
         </div>
